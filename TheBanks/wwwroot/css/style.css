@@ -1,0 +1,235 @@
+/*!* Variables globales *!*/
+/*:root {*/
+/*    --primary-color: #2c3e50;*/
+/*    --secondary-color: #3498db;*/
+/*    --success-color: #2ecc71;*/
+/*    --danger-color: #e74c3c;*/
+/*    --light-bg: #f8f9fa;*/
+/*    --box-shadow: 0 2px 4px rgba(0,0,0,0.1);*/
+/*}*/
+
+/*!* Reset de base *!*/
+/** {*/
+/*    margin: 0;*/
+/*    padding: 0;*/
+/*    box-sizing: border-box;*/
+/*}*/
+
+/*body {*/
+/*    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;*/
+/*    line-height: 1.6;*/
+/*    background-color: var(--light-bg);*/
+/*    color: var(--primary-color);*/
+/*    padding: 20px;*/
+/*}*/
+
+/*!* Conteneurs principaux *!*/
+/*.page {*/
+/*    display: flex;*/
+/*    min-height: 100vh;*/
+/*}*/
+
+/*.sidebar {*/
+/*    width: 250px;*/
+/*    background: white;*/
+/*    padding: 20px;*/
+/*    border-radius: 8px;*/
+/*    box-shadow: var(--box-shadow);*/
+/*    margin-right: 20px;*/
+/*}*/
+
+/*.main {*/
+/*    flex: 1;*/
+/*    background: white;*/
+/*    border-radius: 8px;*/
+/*    padding: 20px;*/
+/*    box-shadow: var(--box-shadow);*/
+/*}*/
+
+/*!* Barre de navigation *!*/
+/*.nav-menu {*/
+/*    margin-bottom: 20px;*/
+/*}*/
+
+/*.nav-menu a {*/
+/*    display: block;*/
+/*    padding: 10px 15px;*/
+/*    color: var(--primary-color);*/
+/*    text-decoration: none;*/
+/*    border-radius: 4px;*/
+/*    transition: all 0.3s;*/
+/*}*/
+
+/*.nav-menu a:hover {*/
+/*    background-color: var(--secondary-color);*/
+/*    color: white;*/
+/*}*/
+
+/*!* Formulaires *!*/
+/*.form-group {*/
+/*    margin-bottom: 1.5rem;*/
+/*}*/
+
+/*.form-group label {*/
+/*    display: block;*/
+/*    margin-bottom: 0.5rem;*/
+/*    font-weight: 600;*/
+/*}*/
+
+/*input, select, button {*/
+/*    width: 100%;*/
+/*    padding: 0.8rem;*/
+/*    border: 1px solid #ddd;*/
+/*    border-radius: 4px;*/
+/*    margin-top: 0.3rem;*/
+/*}*/
+
+/*button {*/
+/*    background-color: var(--secondary-color);*/
+/*    color: white;*/
+/*    border: none;*/
+/*    cursor: pointer;*/
+/*    font-size: 1rem;*/
+/*    transition: all 0.3s;*/
+/*}*/
+
+/*button:hover {*/
+/*    background-color: #2980b9;*/
+/*}*/
+
+/*!* Tableau de bord utilisateur *!*/
+/*.user-container {*/
+/*    margin-bottom: 2rem;*/
+/*}*/
+
+/*.user-container ul {*/
+/*    list-style: none;*/
+/*    padding: 0;*/
+/*}*/
+
+/*.user-container li {*/
+/*    padding: 10px;*/
+/*    background: #f1f1f1;*/
+/*    border-radius: 4px;*/
+/*    margin-bottom: 5px;*/
+/*}*/
+
+/*!* Messages d'erreur *!*/
+/*.alert {*/
+/*    background: var(--danger-color);*/
+/*    color: white;*/
+/*    padding: 15px;*/
+/*    border-radius: 4px;*/
+/*    margin-bottom: 20px;*/
+/*}*/
+
+/*.validation-message {*/
+/*    color: var(--danger-color);*/
+/*    font-size: 0.9rem;*/
+/*    margin-top: 0.3rem;*/
+/*}*/
+
+/*!* Responsive *!*/
+
+/*@media (max-width: 768px) {*/
+/*    .page {*/
+/*        flex-direction: column;*/
+/*    }*/
+
+/*    .sidebar {*/
+/*        width: 100%;*/
+/*        margin-right: 0;*/
+/*        margin-bottom: 20px;*/
+/*    }*/
+/*}*/
+
+/*!* Animations *!*/
+/*@keyframes fadeIn {*/
+/*    from { opacity: 0; }*/
+/*    to { opacity: 1; }*/
+/*}*/
+
+/*.fade-in {*/
+/*    animation: fadeIn 0.5s ease-in;*/
+/*}*/
+
+
+/* Styles globaux */
+body {
+    font-family: 'Arial', sans-serif; /* Utilisation d'une police moderne */
+    background-color: #f4f4f4; /* Couleur de fond douce */
+    color: #333; /* Couleur du texte */
+    margin: 0;
+    padding: 0;
+}
+
+/* Styles spécifiques aux composants de l'application */
+.auth-container {
+    max-width: 500px; /* Largeur maximale du conteneur */
+    margin: 2rem auto; /* Centrage du conteneur */
+    padding: 2rem; /* Espacement interne */
+    background: white; /* Couleur de fond blanche */
+    border-radius: 8px; /* Coins arrondis */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* Ombre douce */
+    transition: box-shadow 0.3s ease; /* Transition pour l'ombre */
+}
+
+.auth-container:hover {
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2); /* Ombre plus prononcée au survol */
+}
+
+.form-group {
+    margin-bottom: 1.5rem; /* Espacement entre les groupes de formulaire */
+}
+
+.form-group label {
+    display: block; /* Affichage en bloc */
+    margin-bottom: 0.5rem; /* Espacement en bas */
+    color: #007bff; /* Couleur primaire */
+    font-weight: 600; /* Poids de la police */
+}
+
+input, select {
+    width: 100%; /* Largeur à 100% */
+    padding: 0.8rem; /* Espacement interne */
+    border: 1px solid #ddd; /* Bordure grise */
+    border-radius: 4px; /* Coins arrondis */
+    font-size: 1rem; /* Taille de la police */
+    transition: border-color 0.3s ease; /* Transition pour la couleur de la bordure */
+}
+
+input:focus, select:focus {
+    border-color: #007bff; /* Couleur de la bordure au focus */
+    outline: none; /* Suppression de l'outline par défaut */
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* Ombre au focus */
+}
+
+button {
+    background-color: #007bff; /* Couleur de fond du bouton */
+    color: white; /* Couleur du texte */
+    padding: 0.8rem; /* Espacement interne */
+    border: none; /* Pas de bordure */
+    border-radius: 4px; /* Coins arrondis */
+    cursor: pointer; /* Curseur en main */
+    font-size: 1rem; /* Taille de la police */
+    transition: background-color 0.3s ease; /* Transition pour la couleur de fond */
+}
+
+button:hover {
+    background-color: #0056b3; /* Couleur de fond au survol */
+}
+
+.alert {
+    padding: 1rem; /* Espacement interne */
+    margin-top: 1rem; /* Espacement en haut */
+    border-radius: 4px; /* Coins arrondis */
+    color: white; /* Couleur du texte */
+}
+
+.alert-danger {
+    background-color: #dc3545; /* Couleur de fond pour les alertes d'erreur */
+}
+
+.alert-success {
+    background-color: #28a745; /* Couleur de fond pour les alertes de succès */
+}

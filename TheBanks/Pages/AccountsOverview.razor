@@ -1,0 +1,47 @@
+@page "/accounts-overview" 
+@using TheBanks.Models 
+@using TheBanks.Services 
+@inject BankService BankService 
+
+<h2>Vue d'ensemble des comptes</h2>
+
+@if (BankService.Bank.Accounts.Count == 0) // Vérifie si la banque a des comptes
+{
+    <p>Aucun compte disponible.</p> // Message si aucun compte n'est trouvé
+}
+else
+{
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Numéro de compte</th>
+            <th>Type de compte</th>
+            <th>Nom</th>
+            <th>Prénom</th>
+            <th>Solde</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var account in BankService.Bank.Accounts)
+        {
+            var owner = account.Value.Owner; // Récupère le propriétaire du compte
+            <tr>
+                <td>@account.Value.Number</td>
+                <td>
+                    @if (account.Value is SavingsAccount)
+                    {
+                        <span>Compte d'épargne</span>
+                    }
+                    else if (account.Value is CurrentAccount)
+                    {
+                        <span>Compte courant</span>
+                    }
+                </td>
+                <td>@owner.LastName</td> 
+                <td>@owner.FirstName</td>
+                <td>@account.Value.Balance.ToString("C")</td> 
+            </tr>
+        }
+        </tbody>
+    </table>
+}

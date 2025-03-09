@@ -1,0 +1,66 @@
+@page "/login" 
+@using TheBanks.Models 
+@using TheBanks.Services 
+@inject AuthService AuthService 
+@inject NavigationManager Navigation 
+@inject IJSRuntime JSRuntime 
+
+<div class="auth-container">
+    <h2>Se connecter</h2>
+    
+    <EditForm Model="@LoginCredentials" OnValidSubmit="HandleLogin"> // Formulaire de connexion
+        <DataAnnotationsValidator /> // Validation des annotations de données
+        
+        <div class="form-group">
+            <label>Email</label>
+            <InputText @bind-Value="LoginCredentials.Email" class="form-control" /> // Champ pour l'email
+            <ValidationMessage For="@(() => LoginCredentials.Email)" /> // Message d'erreur pour l'email
+        </div>
+
+        <div class="form-group">
+            <label>Mot de passe</label>
+            <InputText type="password" @bind-Value="LoginCredentials.Password" class="form-control" /> // Champ pour le mot de passe
+            <ValidationMessage For="@(() => LoginCredentials.Password)" /> // Message d'erreur pour le mot de passe
+        </div>
+
+        <button type="submit" class="btn btn-primary">Se connecter</button> // Bouton pour soumettre le formulaire
+        
+        <div class="mt-3">
+            <a href="/register" class="text-secondary">Pas encore de compte ? S'inscrire</a> // Lien vers la page d'inscription
+        </div>
+    </EditForm>
+
+    @if (!string.IsNullOrEmpty(ErrorMessage)) // Affiche un message d'erreur si présent
+    {
+        <div class="alert alert-danger mt-3">
+            @ErrorMessage
+        </div>
+    }
+</div>
+
+@code {
+    private LoginCredentials LoginCredentials = new(); // Modèle pour les informations de connexion
+    private string ErrorMessage = string.Empty; // Message d'erreur
+
+    // Méthode pour gérer la soumission du formulaire de connexion
+    private async Task HandleLogin()
+    {
+        try
+        {
+            // Vérifie les informations d'identification
+            if (await AuthService.Login(LoginCredentials.Email, LoginCredentials.Password)) // Utilisation de await
+            {
+                await JSRuntime.InvokeVoidAsync("alert", "Connexion réussie !"); // Affiche un message de succès
+                Navigation.NavigateTo("/accounts-overview"); // Redirige vers la vue d'ensemble des comptes
+            }
+            else
+            {
+                ErrorMessage = "Email ou mot de passe incorrect."; // Message d'erreur
+            }
+        }
+        catch (Exception ex)
+        {
+            ErrorMessage = ex.Message; // Capture et affiche l'erreur
+        }
+    }
+}

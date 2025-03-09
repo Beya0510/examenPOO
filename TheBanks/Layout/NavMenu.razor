@@ -1,0 +1,52 @@
+@inject NavigationManager Navigation
+
+<nav class="sidebar"> <!-- Ajout de la classe sidebar -->
+    <ul>
+        <li><NavLink class="nav-link" href="/login">Se connecter</NavLink></li>
+        <li><NavLink class="nav-link" href="/create-account">Créer un compte</NavLink></li>
+        <li><NavLink class="nav-link" href="/deposit">Déposer de l'argent</NavLink></li>
+        <li><NavLink class="nav-link" href="/withdraw">Retirer de l'argent</NavLink></li>
+        <li><NavLink class="nav-link" href="/transfer">Transférer de l'argent</NavLink></li>
+        <li><NavLink class="nav-link" href="/accounts-overview">Vue d'ensemble des comptes</NavLink></li>
+    </ul>
+</nav>
+
+<style>
+    /* Styles pour la barre de navigation verticale */
+    .sidebar {
+        background-color: #007bff; /* Couleur de fond bleue */
+        color: white; /* Couleur du texte */
+        width: 200px; /* Largeur de la barre de navigation */
+        height: 100vh; /* Hauteur de la barre de navigation (100% de la hauteur de la fenêtre) */
+        position: fixed; /* Fixe la barre de navigation sur le côté gauche */
+        top: 0; /* Positionne la barre en haut */
+        left: 0; /* Positionne la barre à gauche */
+        padding: 1rem; /* Espacement interne */
+        box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1); /* Ombre pour un effet de profondeur */
+        overflow-y: auto; /* Permet le défilement si le contenu dépasse la hauteur */
+    }
+
+    .sidebar ul {
+        list-style-type: none; /* Supprime les puces de la liste */
+        padding: 0; /* Supprime le padding par défaut */
+        margin: 0; /* Supprime la marge par défaut */
+    }
+
+    .sidebar li {
+        margin-bottom: 1rem; /* Espacement entre les éléments de la liste */
+    }
+
+    .nav-link {
+        color: white; /* Couleur du texte des liens */
+        text-decoration: none; /* Supprime le soulignement des liens */
+        font-weight: bold; /* Met le texte en gras */
+        font-size: 1.2rem; /* Taille de la police pour les liens */
+        padding: 10px; /* Espacement interne pour les liens */
+        display: block; /* Affiche le lien comme un bloc pour remplir l'espace */
+        transition: background-color 0.3s ease; /* Transition pour la couleur de fond */
+    }
+
+    .nav-link:hover {
+        background-color: rgba(255, 255, 255, 0.2); /* Couleur de fond au survol */
+    }
+</style>

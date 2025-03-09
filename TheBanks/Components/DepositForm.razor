@@ -1,0 +1,56 @@
+@page "/deposit"
+@using TheBanks.Models
+@using TheBanks.Services
+@inject BankService BankService
+@inject IJSRuntime JSRuntime
+
+<EditForm Model="@DepositModel" OnValidSubmit="HandleDeposit">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div class="form-group">
+        <label>Compte</label>
+        <InputSelect @bind-Value="DepositModel.AccountNumber">
+            <option value="">Sélectionnez un compte</option>
+            @foreach (var account in BankService.Bank.Accounts.Values)
+            {
+                <option value="@account.Number">@account.Number</option>
+            }
+        </InputSelect>
+        <ValidationMessage For="@(() => DepositModel.AccountNumber)" />
+    </div>
+
+    <div class="form-group">
+        <label>Montant</label>
+        <InputNumber @bind-Value="DepositModel.Amount" class="form-control" />
+        <ValidationMessage For="@(() => DepositModel.Amount)" />
+    </div>
+
+    <button type="submit" class="btn btn-success">Déposer</button>
+</EditForm>
+
+@code {
+    // Modèle pour le dépôt d'argent
+    private DepositModel DepositModel = new();
+
+    // Méthode pour gérer le dépôt
+    private async Task HandleDeposit()
+    {
+        try
+        {
+            var account = BankService.Bank.Accounts[DepositModel.AccountNumber];
+            account.Deposit(DepositModel.Amount); // Appelle la méthode de dépôt
+
+            // Sauvegarde des données de la banque
+            await BankService.SaveBankData();
+
+            // Affiche un message de succès
+            await JSRuntime.InvokeVoidAsync("alert", "Dépôt effectué avec succès !");
+        }
+        catch (Exception ex)
+        {
+            // Gestion des erreurs
+            await JSRuntime.InvokeVoidAsync("alert", $"Erreur lors du dépôt : {ex.Message}");
+        }
+    }
+}

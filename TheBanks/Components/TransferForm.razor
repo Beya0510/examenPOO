@@ -1,0 +1,87 @@
+@page "/transfer"
+@using TheBanks.Models
+@using TheBanks.Services
+@inject BankService BankService
+@inject IJSRuntime JSRuntime
+
+<EditForm Model="@TransferModel" OnValidSubmit="HandleTransfer">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div class="form-group">
+        <label>Compte source</label>
+        <InputSelect @bind-Value="TransferModel.SourceAccount">
+            <option value="">Sélectionnez un compte</option>
+            @foreach (var account in BankService.Bank.Accounts.Values)
+            {
+                <option value="@account.Number">@account.Number</option>
+            }
+        </InputSelect>
+        <ValidationMessage For="@(() => TransferModel.SourceAccount)" />
+    </div>
+
+    <div class="form-group">
+        <label>Compte destinataire</label>
+        <InputSelect @bind-Value="TransferModel.TargetAccount">
+            <option value="">Sélectionnez un compte</option>
+            @foreach (var account in BankService.Bank.Accounts.Values)
+            {
+                <option value="@account.Number">@account.Number</option>
+            }
+        </InputSelect>
+        <ValidationMessage For="@(() => TransferModel.TargetAccount)" />
+    </div>
+
+    <div class="form-group">
+        <label>Montant</label>
+        <InputNumber @bind-Value="TransferModel.Amount" />
+        <ValidationMessage For="@(() => TransferModel.Amount)" />
+    </div>
+
+    <button type="submit" class="btn btn-success">Transférer</button>
+</EditForm>
+
+@code {
+    // Modèle pour le transfert d'argent
+    private TransferModel TransferModel = new();
+
+    // Méthode pour gérer le transfert
+    private async Task HandleTransfer()
+    {
+        try
+        {
+            // Vérifie que les comptes source et destinataire sont différents
+            if (TransferModel.SourceAccount == TransferModel.TargetAccount)
+            {
+                await JSRuntime.InvokeVoidAsync("alert", "Les comptes source et destinataire ne peuvent pas être identiques.");
+                return;
+            }
+
+            // Récupère les comptes source et destinataire
+            var sourceAccount = BankService.Bank.Accounts[TransferModel.SourceAccount];
+            var targetAccount = BankService.Bank.Accounts[TransferModel.TargetAccount];
+
+            // Effectue le retrait du compte source
+            sourceAccount.Withdraw(TransferModel.Amount);
+
+            // Effectue le dépôt sur le compte destinataire
+            targetAccount.Deposit(TransferModel.Amount);
+
+            // Sauvegarde des données de la banque
+            await BankService.SaveBankData();
+
+            // Affiche un message de succès
+            await JSRuntime.InvokeVoidAsync("alert", "Transfert effectué avec succès !");
+        }
+        catch (InsufficientBalanceException ex)
+        {
+            // Gestion des erreurs de solde insuffisant
+            await JSRuntime.InvokeVoidAsync("alert", $"Erreur : {ex.Message}");
+        }
+        catch (Exception ex)
+        {
+            // Gestion des autres erreurs
+            await JSRuntime.InvokeVoidAsync("alert", $"Erreur lors du transfert : {ex.Message}");
+        }
+    }
+}

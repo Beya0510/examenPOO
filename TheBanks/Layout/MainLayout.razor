@@ -1,0 +1,18 @@
+﻿@inherits LayoutComponentBase
+
+<div class="sidebar">
+    <NavMenu /> <!-- Inclut le menu de navigation -->
+</div>
+
+<div class="content"> <!-- Contenu principal -->
+    @Body <!-- Contenu principal de la page -->
+</div>
+
+<style>
+    .content {
+        margin-left: 250px; /* Décale le contenu vers la droite pour qu'il commence après la sidebar */
+        padding: 1rem; /* Espacement interne pour le contenu */
+        height: 100vh; /* Hauteur du contenu pour s'assurer qu'il remplit l'écran */
+        overflow-y: auto; /* Permet le défilement si le contenu dépasse la hauteur */
+    }
+</style>

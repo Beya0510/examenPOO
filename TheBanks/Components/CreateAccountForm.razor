@@ -1,0 +1,104 @@
+
+
+
+
+
+
+@page "/create-account" 
+@using TheBanks.Models 
+@using TheBanks.Services 
+@inject BankService BankService 
+@inject IJSRuntime JSRuntime 
+
+
+<EditForm Model="@NewAccount" OnValidSubmit="HandleSubmit"> 
+    <DataAnnotationsValidator /> 
+    <ValidationSummary /> 
+
+    <div class="form-group">
+        <label>Type de compte</label>
+        <select @bind="NewAccount.AccountType" class="form-control"> 
+            <option value="Savings">Compte d'épargne</option> 
+            <option value="Current">Compte courant</option> 
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label>Prénom</label>
+        <InputText @bind-Value="NewAccount.FirstName" class="form-control" /> 
+        <ValidationMessage For="@(() => NewAccount.FirstName)" /> 
+    </div>
+
+    <div class="form-group">
+        <label>Nom</label>
+        <InputText @bind-Value="NewAccount.LastName" class="form-control" /> 
+        <ValidationMessage For="@(() => NewAccount.LastName)" /> 
+    </div>
+
+    <div class="form-group">
+        <label>Date de naissance</label>
+        <InputDate @bind-Value="NewAccount.BirthDate" class="form-control" /> 
+        <ValidationMessage For="@(() => NewAccount.BirthDate)" /> 
+    </div>
+
+    <div class="form-group">
+        <label>Email</label>
+        <InputText @bind-Value="NewAccount.Email" class="form-control" /> 
+        <ValidationMessage For="@(() => NewAccount.Email)" /> 
+    </div>
+
+    <div class="form-group">
+        <label>Mot de passe</label>
+        <InputText type="password" @bind-Value="NewAccount.Password" class="form-control" /> 
+        <ValidationMessage For="@(() => NewAccount.Password)" /> 
+    </div>
+
+    <button type="submit" class="btn btn-success">Créer un compte</button> 
+</EditForm>
+
+@code {
+    // Modèle pour la création d'un compte
+    private AccountCreationModel NewAccount = new(); // Instance du modèle de création de compte
+
+    // Méthode pour gérer la soumission du formulaire
+    private async Task HandleSubmit()
+    {
+        try
+        {
+            // Crée une nouvelle instance de Person avec les informations fournies
+            var owner = new Person
+            {
+                FirstName = NewAccount.FirstName,
+                LastName = NewAccount.LastName,
+                BirthDate = NewAccount.BirthDate
+            };
+
+            // Ajoute un nouveau compte selon le type sélectionné
+            if (NewAccount.AccountType == "Savings")
+            {
+                BankService.Bank.AddAccount(new SavingsAccount(GenerateAccountNumber(), owner)); // Ajout d'un compte d'épargne
+            }
+            else if (NewAccount.AccountType == "Current")
+            {
+                BankService.Bank.AddAccount(new CurrentAccount(GenerateAccountNumber(), owner, 1000)); // Ajout d'un compte courant avec une limite de crédit
+            }
+
+            // Sauvegarde des données de la banque
+            await BankService.SaveBankData();
+
+            // Affiche un message de succès
+            await JSRuntime.InvokeVoidAsync("alert", "Compte créé avec succès !");
+        }
+        catch (Exception ex)
+        {
+            // Gestion des erreurs
+            await JSRuntime.InvokeVoidAsync("alert", $"Erreur lors de la création du compte : {ex.Message}");
+        }
+    }
+
+    // Méthode pour générer un numéro de compte unique
+    private string GenerateAccountNumber()
+    {
+        return $"ACC-{DateTime.Now:yyyyMMddHHmmssfff}"; // Format du numéro de compte
+    }
+}
