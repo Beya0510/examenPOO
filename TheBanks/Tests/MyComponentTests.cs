@@ -2,7 +2,7 @@ using Bunit;
 using Xunit;
 using TheBanks.Components;
 
-namespace TheBanks.TheBanks.Tests
+namespace TheBanks.Tests
 {
     public class MyComponentTests : TestContext
     {
