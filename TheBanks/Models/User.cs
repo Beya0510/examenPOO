@@ -2,11 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace TheBanks.Models
 {
-    /// <summary>
-    /// Représente un utilisateur authentifiable
-    /// Hérite de Person pour partager les propriétés communes
-    /// </summary>
-    public class User : Person  // Héritage ajouté
+    public class User : Person 
     {
         [Required(ErrorMessage = "L'email est obligatoire")]
         [EmailAddress(ErrorMessage = "Format d'email invalide")]
@@ -16,5 +12,7 @@ namespace TheBanks.Models
         [DataType(DataType.Password)]
         [MinLength(8, ErrorMessage = "8 caractères minimum")]
         public string Password { get; set; } = string.Empty;
+        
+        
     }
 }

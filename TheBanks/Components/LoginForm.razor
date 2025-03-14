@@ -1,9 +1,9 @@
 @page "/login" 
-@using TheBanks.Models 
-@using TheBanks.Services 
+@using global::TheBanks.Models
+@using global::TheBanks.Services
 @inject AuthService AuthService 
 @inject NavigationManager Navigation 
-@inject IJSRuntime JSRuntime 
+@inject IJSRuntime JsRuntime 
 
 <div class="auth-container">
     <h2>Se connecter</h2>
@@ -48,9 +48,9 @@
         try
         {
             // Vérifie les informations d'identification
-            if (await AuthService.Login(LoginCredentials.Email, LoginCredentials.Password)) // Utilisation de await
+            if (await AuthService.Login(LoginCredentials.Email, LoginCredentials.Password)) 
             {
-                await JSRuntime.InvokeVoidAsync("alert", "Connexion réussie !"); // Affiche un message de succès
+                await JSRuntime.InvokeVoidAsync("alert", "Connexion réussie !"); 
                 Navigation.NavigateTo("/accounts-overview"); // Redirige vers la vue d'ensemble des comptes
             }
             else

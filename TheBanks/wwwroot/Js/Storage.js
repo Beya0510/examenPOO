@@ -1,4 +1,3 @@
-
 // Gestion du localStorage/sessionStorage
 window.storage = {
     save: function(key, data) {

@@ -1,6 +1,6 @@
 @page "/accounts-overview" 
-@using TheBanks.Models 
-@using TheBanks.Services 
+@using global::TheBanks.Models
+@using global::TheBanks.Services
 @inject BankService BankService 
 
 <h2>Vue d'ensemble des comptes</h2>
@@ -24,7 +24,7 @@ else
         <tbody>
         @foreach (var account in BankService.Bank.Accounts)
         {
-            var owner = account.Value.Owner; // Récupère le propriétaire du compte
+            var owner = account.Value.Owner; // Je récupère le propriétaire du compte
             <tr>
                 <td>@account.Value.Number</td>
                 <td>

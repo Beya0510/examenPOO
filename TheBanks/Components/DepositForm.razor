@@ -1,6 +1,6 @@
 @page "/deposit"
-@using TheBanks.Models
-@using TheBanks.Services
+@using global::TheBanks.Models
+@using global::TheBanks.Services
 @inject BankService BankService
 @inject IJSRuntime JSRuntime
 
@@ -30,10 +30,9 @@
 </EditForm>
 
 @code {
-    // Modèle pour le dépôt d'argent
     private DepositModel DepositModel = new();
+    public int Balance { get; set; }
 
-    // Méthode pour gérer le dépôt
     private async Task HandleDeposit()
     {
         try
@@ -44,7 +43,6 @@
             // Sauvegarde des données de la banque
             await BankService.SaveBankData();
 
-            // Affiche un message de succès
             await JSRuntime.InvokeVoidAsync("alert", "Dépôt effectué avec succès !");
         }
         catch (Exception ex)

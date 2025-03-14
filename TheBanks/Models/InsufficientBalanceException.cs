@@ -1,5 +1,10 @@
-// Exception pour gérer les cas de solde insuffisant
-public class InsufficientBalanceException : Exception
+namespace TheBanks.Models
 {
-    public InsufficientBalanceException(string message) : base(message) { }
+// Exception pour gérer les cas de solde insuffisant
+    public class InsufficientBalanceException : Exception
+    {
+        public InsufficientBalanceException(string message) : base(message)
+        {
+        }
+    }
 }
