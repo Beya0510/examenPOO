@@ -4,41 +4,41 @@
 @inject BankService BankService
 @inject IJSRuntime JSRuntime
 
-<EditForm Model="@WithdrawModel" OnValidSubmit="HandleWithdraw">
+<EditForm Model="@_withdrawModel" OnValidSubmit="HandleWithdraw">
     <DataAnnotationsValidator />
     <ValidationSummary />
 
     <div class="form-group">
         <label>Compte</label>
-        <InputSelect @bind-Value="WithdrawModel.AccountNumber">
+        <InputSelect @bind-Value="_withdrawModel.AccountNumber">
             <option value="">Sélectionnez un compte</option>
             @foreach (var account in BankService.Bank.Accounts.Values)
             {
                 <option value="@account.Number">@account.Number</option>
             }
         </InputSelect>
-        <ValidationMessage For="@(() => WithdrawModel.AccountNumber)" />
+        <ValidationMessage For="@(() => _withdrawModel.AccountNumber)" />
     </div>
 
     <div class="form-group">
         <label>Montant</label>
-        <InputNumber @bind-Value="WithdrawModel.Amount" class="form-control" />
-        <ValidationMessage For="@(() => WithdrawModel.Amount)" />
+        <InputNumber @bind-Value="_withdrawModel.Amount" class="form-control" />
+        <ValidationMessage For="@(() => _withdrawModel.Amount)" />
     </div>
 
     <button type="submit" class="btn btn-danger">Retirer</button>
 </EditForm>
 
 @code {
-    private WithdrawModel WithdrawModel = new();
+    private WithdrawModel _withdrawModel = new();
     public int Balance { get; set; }
 
     private async Task HandleWithdraw()
     {
         try
         {
-            var account = BankService.Bank.Accounts[WithdrawModel.AccountNumber];
-            account.Withdraw(WithdrawModel.Amount); // Appelle la méthode de retrait
+            var account = BankService.Bank.Accounts[_withdrawModel.AccountNumber];
+            account.Withdraw(_withdrawModel.Amount); // Appelle la méthode de retrait
 
             // Sauvegarde des données de la banque
             await BankService.SaveBankData();

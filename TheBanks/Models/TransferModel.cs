@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace MyNamespace
+namespace TheBanks.Models
 {
 // Modèle pour les informations de transfert
     public class TransferModel

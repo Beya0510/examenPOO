@@ -1,42 +1,41 @@
 @page "/transfer"
 @using global::TheBanks.Models
 @using global::TheBanks.Services
-@using MyNamespace
 @inject BankService BankService
 @inject IJSRuntime JSRuntime
 
-<EditForm Model="@TransferModel" OnValidSubmit="HandleTransfer">
+<EditForm Model="@_transferModel" OnValidSubmit="HandleTransfer">
     <DataAnnotationsValidator />
     <ValidationSummary />
 
     <div class="form-group">
         <label>Compte source</label>
-        <InputSelect @bind-Value="TransferModel.SourceAccount">
+        <InputSelect @bind-Value="_transferModel.SourceAccount">
             <option value="">Sélectionnez un compte</option>
             @foreach (var account in BankService.Bank.Accounts.Values)
             {
                 <option value="@account.Number">@account.Number</option>
             }
         </InputSelect>
-        <ValidationMessage For="@(() => TransferModel.SourceAccount)" />
+        <ValidationMessage For="@(() => _transferModel.SourceAccount)" />
     </div>
 
     <div class="form-group">
         <label>Compte destinataire</label>
-        <InputSelect @bind-Value="TransferModel.TargetAccount">
+        <InputSelect @bind-Value="_transferModel.TargetAccount">
             <option value="">Sélectionnez un compte</option>
             @foreach (var account in BankService.Bank.Accounts.Values)
             {
                 <option value="@account.Number">@account.Number</option>
             }
         </InputSelect>
-        <ValidationMessage For="@(() => TransferModel.TargetAccount)" />
+        <ValidationMessage For="@(() => _transferModel.TargetAccount)" />
     </div>
 
     <div class="form-group">
         <label>Montant</label>
-        <InputNumber @bind-Value="TransferModel.Amount" />
-        <ValidationMessage For="@(() => TransferModel.Amount)" />
+        <InputNumber @bind-Value="_transferModel.Amount" />
+        <ValidationMessage For="@(() => _transferModel.Amount)" />
     </div>
 
     <button type="submit" class="btn btn-success">Transférer</button>
@@ -44,7 +43,7 @@
 
 @code {
     // Modèle pour le transfert d'argent
-    private TransferModel TransferModel = new();
+    private TransferModel _transferModel = new();
 
     // Méthode pour gérer le transfert
     private async Task HandleTransfer()
@@ -52,21 +51,21 @@
         try
         {
             // Vérifie que les comptes source et destinataire sont différents
-            if (TransferModel.SourceAccount == TransferModel.TargetAccount)
+            if (_transferModel.SourceAccount == _transferModel.TargetAccount)
             {
                 await JSRuntime.InvokeVoidAsync("alert", "Les comptes source et destinataire ne peuvent pas être identiques.");
                 return;
             }
 
             // Récupère les comptes source et destinataire
-            var sourceAccount = BankService.Bank.Accounts[TransferModel.SourceAccount];
-            var targetAccount = BankService.Bank.Accounts[TransferModel.TargetAccount];
+            var sourceAccount = BankService.Bank.Accounts[_transferModel.SourceAccount];
+            var targetAccount = BankService.Bank.Accounts[_transferModel.TargetAccount];
 
             // Effectue le retrait du compte source
-            sourceAccount.Withdraw(TransferModel.Amount);
+            sourceAccount.Withdraw(_transferModel.Amount);
 
             // Effectue le dépôt sur le compte destinataire
-            targetAccount.Deposit(TransferModel.Amount);
+            targetAccount.Deposit(_transferModel.Amount);
 
             // Sauvegarde des données de la banque
             await BankService.SaveBankData();

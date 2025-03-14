@@ -4,41 +4,41 @@
 @inject BankService BankService
 @inject IJSRuntime JSRuntime
 
-<EditForm Model="@DepositModel" OnValidSubmit="HandleDeposit">
+<EditForm Model="@_depositModel" OnValidSubmit="HandleDeposit">
     <DataAnnotationsValidator />
     <ValidationSummary />
 
     <div class="form-group">
         <label>Compte</label>
-        <InputSelect @bind-Value="DepositModel.AccountNumber">
+        <InputSelect @bind-Value="_depositModel.AccountNumber">
             <option value="">Sélectionnez un compte</option>
             @foreach (var account in BankService.Bank.Accounts.Values)
             {
                 <option value="@account.Number">@account.Number</option>
             }
         </InputSelect>
-        <ValidationMessage For="@(() => DepositModel.AccountNumber)" />
+        <ValidationMessage For="@(() => _depositModel.AccountNumber)" />
     </div>
 
     <div class="form-group">
         <label>Montant</label>
-        <InputNumber @bind-Value="DepositModel.Amount" class="form-control" />
-        <ValidationMessage For="@(() => DepositModel.Amount)" />
+        <InputNumber @bind-Value="_depositModel.Amount" class="form-control" />
+        <ValidationMessage For="@(() => _depositModel.Amount)" />
     </div>
 
     <button type="submit" class="btn btn-success">Déposer</button>
 </EditForm>
 
 @code {
-    private DepositModel DepositModel = new();
-    public int Balance { get; set; }
+    private DepositModel _depositModel = new();
+    public int Balance { get; private set; }
 
     private async Task HandleDeposit()
     {
         try
         {
-            var account = BankService.Bank.Accounts[DepositModel.AccountNumber];
-            account.Deposit(DepositModel.Amount); // Appelle la méthode de dépôt
+            var account = BankService.Bank.Accounts[_depositModel.AccountNumber];
+            account.Deposit(_depositModel.Amount); // Appelle la méthode de dépôt
 
             // Sauvegarde des données de la banque
             await BankService.SaveBankData();

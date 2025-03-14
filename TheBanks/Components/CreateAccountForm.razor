@@ -1,58 +1,58 @@
-@page "/create-account" 
+@page "/create-account"
 @using global::TheBanks.Models
 @using global::TheBanks.Services
-@inject BankService BankService 
-@inject IJSRuntime JSRuntime 
+@inject BankService BankService
+@inject IJSRuntime JSRuntime
 
 
-<EditForm Model="@NewAccount" OnValidSubmit="HandleSubmit"> 
-    <DataAnnotationsValidator /> 
-    <ValidationSummary /> 
+<EditForm Model="@_newAccount" OnValidSubmit="HandleSubmit">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
 
     <div class="form-group">
         <label>Type de compte</label>
-        <select @bind="NewAccount.AccountType" class="form-control"> 
-            <option value="Savings">Compte d'épargne</option> 
-            <option value="Current">Compte courant</option> 
+        <select @bind="_newAccount.AccountType" class="form-control">
+            <option value="Savings">Compte d'épargne</option>
+            <option value="Current">Compte courant</option>
         </select>
     </div>
 
     <div class="form-group">
         <label>Prénom</label>
-        <InputText @bind-Value="NewAccount.FirstName" class="form-control" /> 
-        <ValidationMessage For="@(() => NewAccount.FirstName)" /> 
+        <InputText @bind-Value="_newAccount.FirstName" class="form-control" />
+        <ValidationMessage For="@(() => _newAccount.FirstName)" />
     </div>
 
     <div class="form-group">
         <label>Nom</label>
-        <InputText @bind-Value="NewAccount.LastName" class="form-control" /> 
-        <ValidationMessage For="@(() => NewAccount.LastName)" /> 
+        <InputText @bind-Value="_newAccount.LastName" class="form-control" />
+        <ValidationMessage For="@(() => _newAccount.LastName)" />
     </div>
 
     <div class="form-group">
         <label>Date de naissance</label>
-        <InputDate @bind-Value="NewAccount.BirthDate" class="form-control" /> 
-        <ValidationMessage For="@(() => NewAccount.BirthDate)" /> 
+        <InputDate @bind-Value="_newAccount.BirthDate" class="form-control" />
+        <ValidationMessage For="@(() => _newAccount.BirthDate)" />
     </div>
 
     <div class="form-group">
         <label>Email</label>
-        <InputText @bind-Value="NewAccount.Email" class="form-control" /> 
-        <ValidationMessage For="@(() => NewAccount.Email)" /> 
+        <InputText @bind-Value="_newAccount.Email" class="form-control" />
+        <ValidationMessage For="@(() => _newAccount.Email)" />
     </div>
 
     <div class="form-group">
         <label>Mot de passe</label>
-        <InputText type="password" @bind-Value="NewAccount.Password" class="form-control" /> 
-        <ValidationMessage For="@(() => NewAccount.Password)" /> 
+        <InputText type="password" @bind-Value="_newAccount.Password" class="form-control" />
+        <ValidationMessage For="@(() => _newAccount.Password)" />
     </div>
 
-    <button type="submit" class="btn btn-success">Créer un compte</button> 
+    <button type="submit" class="btn btn-success">Créer un compte</button>
 </EditForm>
 
 @code {
     // Modèle pour la création d'un compte
-    private AccountCreationModel NewAccount = new(); // Instance du modèle de création de compte
+    private AccountCreationModel _newAccount = new(); // Instance du modèle de création de compte
 
     // Méthode pour gérer la soumission du formulaire
     private async Task HandleSubmit()
@@ -62,17 +62,17 @@
             // Crée une nouvelle instance de Person avec les informations fournies
             var owner = new Person
             {
-                FirstName = NewAccount.FirstName,
-                LastName = NewAccount.LastName,
-                BirthDate = NewAccount.BirthDate
+                FirstName = _newAccount.FirstName,
+                LastName = _newAccount.LastName,
+                BirthDate = _newAccount.BirthDate
             };
 
             // Ajoute un nouveau compte selon le type sélectionné
-            if (NewAccount.AccountType == "Savings")
+            if (_newAccount.AccountType == "Savings")
             {
                 BankService.Bank.AddAccount(new SavingsAccount(GenerateAccountNumber(), owner)); // Ajout d'un compte d'épargne
             }
-            else if (NewAccount.AccountType == "Current")
+            else if (_newAccount.AccountType == "Current")
             {
                 BankService.Bank.AddAccount(new CurrentAccount(GenerateAccountNumber(), owner, 1000)); // Ajout d'un compte courant avec une limite de crédit
             }
