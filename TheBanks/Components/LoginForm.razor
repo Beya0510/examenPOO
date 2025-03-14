@@ -3,24 +3,25 @@
 @using global::TheBanks.Services
 @inject AuthService AuthService 
 @inject NavigationManager Navigation 
-@inject IJSRuntime JsRuntime 
+@inject IJSRuntime JSRuntime 
+
 
 <div class="auth-container">
     <h2>Se connecter</h2>
     
-    <EditForm Model="@LoginCredentials" OnValidSubmit="HandleLogin"> // Formulaire de connexion
+    <EditForm Model="@_loginCredentials" OnValidSubmit="HandleLogin"> // Formulaire de connexion
         <DataAnnotationsValidator /> // Validation des annotations de données
         
         <div class="form-group">
             <label>Email</label>
-            <InputText @bind-Value="LoginCredentials.Email" class="form-control" /> // Champ pour l'email
-            <ValidationMessage For="@(() => LoginCredentials.Email)" /> // Message d'erreur pour l'email
+            <InputText @bind-Value="_loginCredentials.Email" class="form-control" /> // Champ pour l'email
+            <ValidationMessage For="@(() => _loginCredentials.Email)" /> // Message d'erreur pour l'email
         </div>
 
         <div class="form-group">
             <label>Mot de passe</label>
-            <InputText type="password" @bind-Value="LoginCredentials.Password" class="form-control" /> // Champ pour le mot de passe
-            <ValidationMessage For="@(() => LoginCredentials.Password)" /> // Message d'erreur pour le mot de passe
+            <InputText type="password" @bind-Value="_loginCredentials.Password" class="form-control" /> // Champ pour le mot de passe
+            <ValidationMessage For="@(() => _loginCredentials.Password)" /> // Message d'erreur pour le mot de passe
         </div>
 
         <button type="submit" class="btn btn-primary">Se connecter</button> // Bouton pour soumettre le formulaire
@@ -30,17 +31,17 @@
         </div>
     </EditForm>
 
-    @if (!string.IsNullOrEmpty(ErrorMessage)) // Affiche un message d'erreur si présent
+    @if (!string.IsNullOrEmpty(_errorMessage)) // Affiche un message d'erreur si présent
     {
         <div class="alert alert-danger mt-3">
-            @ErrorMessage
+            @_errorMessage
         </div>
     }
 </div>
 
 @code {
-    private LoginCredentials LoginCredentials = new(); // Modèle pour les informations de connexion
-    private string ErrorMessage = string.Empty; // Message d'erreur
+    private LoginCredentials _loginCredentials = new(); // Modèle pour les informations de connexion
+    private string _errorMessage = string.Empty; // Message d'erreur
 
     // Méthode pour gérer la soumission du formulaire de connexion
     private async Task HandleLogin()
@@ -48,19 +49,19 @@
         try
         {
             // Vérifie les informations d'identification
-            if (await AuthService.Login(LoginCredentials.Email, LoginCredentials.Password)) 
+            if (await AuthService.Login(_loginCredentials.Email, _loginCredentials.Password)) 
             {
                 await JSRuntime.InvokeVoidAsync("alert", "Connexion réussie !"); 
                 Navigation.NavigateTo("/accounts-overview"); // Redirige vers la vue d'ensemble des comptes
             }
             else
             {
-                ErrorMessage = "Email ou mot de passe incorrect."; // Message d'erreur
+                _errorMessage = "Email ou mot de passe incorrect."; // Message d'erreur
             }
         }
         catch (Exception ex)
         {
-            ErrorMessage = ex.Message; // Capture et affiche l'erreur
+            _errorMessage = ex.Message; // Capture et affiche l'erreur
         }
     }
 }
